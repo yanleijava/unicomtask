@@ -1,0 +1,6 @@
+#FROM sgrio/java:jre_8_centos
+FROM java:8
+WORKDIR /opt/pulsar_mirror_maker_tool-2.0-SNAPSHOT/bin
+ADD pulsar_mirror_maker_tool-2.0-SNAPSHOT-bin.tar.gz /opt/
+
+ENTRYPOINT sh file_create.sh ${krb5_conf} krb5.conf & sh file_create.sh ${jaas_conf} jaas.conf &  sh runserver.sh && tail -200f runserver.sh

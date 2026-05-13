@@ -1,0 +1,27 @@
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>tar.gz</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>target</directory>
+      <includes>
+        <include>*jar-with-dependencies.jar</include>
+      </includes>
+      <outputDirectory>lib</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>./src/main/resources</directory>
+      <outputDirectory>conf</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>conf</directory>
+      <outputDirectory>conf</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>sbin</directory>
+      <outputDirectory>bin</outputDirectory>
+    </fileSet>
+  </fileSets>
+</assembly>

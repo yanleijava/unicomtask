@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="log_path">../logs/</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="KafkaDailyRollingFile" fileName="${log_path}/${sys:taskId}/kafka_client.log"
+                     filePattern="${log_path}/${sys:taskId}/kafka_client%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${log_path}/${sys:taskId}/" maxDepth="2">
+                    <IfFileName glob="*">
+                        <IfLastModified age="7d">
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="PulsarDailyRollingFile" fileName="${log_path}/${sys:taskId}/pulsar_client.log"
+                     filePattern="${log_path}/${sys:taskId}/pulsar_client_%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${log_path}/${sys:taskId}/" maxDepth="2">
+                    <IfFileName glob="*">
+                        <IfLastModified age="7d">
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="DailyRollingFile" fileName="${log_path}/${sys:taskId}/pulsar_mirror_maker.log"
+                     filePattern="${log_path}/${sys:taskId}/pulsar_mirror_maker_%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${log_path}/${sys:taskId}/" maxDepth="2">
+                    <IfFileName glob="*">
+                        <IfLastModified age="7d">
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.kafka" level="info" additivity="false">
+            <AppenderRef ref="KafkaDailyRollingFile"/>
+        </Logger>
+        <Logger name="org.apache.pulsar" level="info" additivity="false">
+            <AppenderRef ref="PulsarDailyRollingFile"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="DailyRollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
